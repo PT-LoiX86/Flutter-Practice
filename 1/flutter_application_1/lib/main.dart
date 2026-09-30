@@ -1,51 +1,103 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const Lab1());
+  runApp(const MiCardApp());
 }
 
-class Lab1 extends StatelessWidget {
-  const Lab1({super.key});
+class MiCardApp extends StatelessWidget {
+  const MiCardApp({super.key});
+
+  static const Color primaryColor = Colors.deepOrange;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'I Am Rich',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      home: Scaffold(
+        backgroundColor: primaryColor,
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/rick.jpg'),
+                ),
+
+                const SizedBox(height: 10),
+
+                const Text(
+                  'Phan Thanh Lợi',
+                  style: TextStyle(
+                    fontFamily: 'Pacifico',
+                    fontSize: 40,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                Text(
+                  'FLUTTER DEVELOPER',
+                  style: TextStyle(
+                    fontFamily: 'Source Sans Pro',
+                    fontSize: 20,
+                    color: Colors.deepOrange.shade100,
+                    letterSpacing: 2.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
+                  width: 150,
+                  child: Divider(color: Colors.deepOrange.shade100),
+                ),
+
+                const ContactCard(
+                  icon: Icons.phone,
+                  text: '+84 69 420 8386',
+                  fontSize: 20,
+                ),
+
+                const ContactCard(
+                  icon: Icons.email,
+                  text: 'loipt.23it@vku.udn.vn',
+                  fontSize: 18,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      home: const HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ContactCard extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final double fontSize;
+
+  const ContactCard({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.fontSize,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 217, 255),
-        centerTitle: true,
-        title: const Text(
-          'I Am Rich',
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      child: ListTile(
+        leading: Icon(icon, color: Colors.deepOrange),
+        title: Text(
+          text,
           style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: AssetImage('assets/images/diamond.jpg'),
-            fit: BoxFit.contain,
+            color: Colors.deepOrange.shade900,
+            fontFamily: 'Source Sans Pro',
+            fontSize: fontSize,
           ),
         ),
       ),
