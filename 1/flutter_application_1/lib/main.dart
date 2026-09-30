@@ -1,72 +1,69 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() {
-  runApp(const Magic8BallApp());
+  runApp(const XylophoneApp());
 }
 
-class Magic8BallApp extends StatelessWidget {
-  const Magic8BallApp({super.key});
+class XylophoneApp extends StatefulWidget {
+  const XylophoneApp({super.key});
+
+  @override
+  State<XylophoneApp> createState() => _XylophoneAppState();
+}
+
+class _XylophoneAppState extends State<XylophoneApp> {
+  final AudioPlayer _player = AudioPlayer();
+
+  Future<void> _playSound(int note) async {
+    await _player.play(AssetSource('sounds/note$note.wav'));
+  }
+
+  Widget _buildKey({required Color color, required int note}) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+        child: TextButton(
+          onPressed: () => _playSound(note),
+          style: TextButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          child: const SizedBox.expand(),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.blueGrey.shade900,
-        appBar: AppBar(
-          title: const Text('Ask Me Anything'),
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-          foregroundColor: Colors.white,
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildKey(color: Colors.red, note: 1),
+              _buildKey(color: Colors.orange, note: 2),
+              _buildKey(color: Colors.yellow, note: 3),
+              _buildKey(color: Colors.green, note: 4),
+              _buildKey(color: Colors.teal, note: 5),
+              _buildKey(color: Colors.blue, note: 6),
+              _buildKey(color: Colors.purple, note: 7),
+            ],
+          ),
         ),
-        body: const Magic8BallPage(),
       ),
-    );
-  }
-}
-
-class Magic8BallPage extends StatefulWidget {
-  const Magic8BallPage({super.key});
-
-  @override
-  State<Magic8BallPage> createState() => _Magic8BallPageState();
-}
-
-class _Magic8BallPageState extends State<Magic8BallPage> {
-  final Random _random = Random();
-
-  int _ballNumber = 1;
-
-  void _changeBall() {
-    setState(() {
-      _ballNumber = _random.nextInt(4) + 1;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Center(
-              child: Image.asset('assets/images/ball$_ballNumber.png'),
-            ),
-          ),
-        ),
-
-        ElevatedButton(
-          onPressed: _changeBall,
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          ),
-          child: const Text('Get Answer', style: TextStyle(fontSize: 20)),
-        ),
-
-        const SizedBox(height: 40),
-      ],
     );
   }
 }
