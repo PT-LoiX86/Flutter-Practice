@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-import 'constants/app.dart';
-import 'screens/input_page.dart';
+import 'screens/weather_screen.dart';
 
 void main() {
-  runApp(const BMICalculator());
+  runApp(const WeatherApp());
 }
 
-class BMICalculator extends StatelessWidget {
-  const BMICalculator({super.key});
+class WeatherApp extends StatelessWidget {
+  const WeatherApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: AppColors.background,
-        appBarTheme: const AppBarTheme(backgroundColor: AppColors.background),
+      title: 'Weather App',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const InputPage(),
+      home: const WeatherScreen(),
     );
   }
 }
